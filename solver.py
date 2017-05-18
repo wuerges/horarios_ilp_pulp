@@ -127,6 +127,7 @@ def solve(professors, courses, semesters, slots):
 
 
     for p in professors:
+        print(p, proibidos)
         for (a, b) in proibidos:
             va = pulp.lpSum(lp_vars[(p, c, a, sem)] \
                     for c in p.courses \

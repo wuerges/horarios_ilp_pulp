@@ -30,13 +30,16 @@ noturno4.add_course(cs[7])
 semesters = [ matutino1, noturno2, matutino3, noturno4 ]
 
 
-days = [ Day(slots[0:2] + slots[4:6], "Seg.") \
-       , Day(slots[2:4] + slots[6:8], "Ter.") ]
+proibidos = [ (slots[0], slots[5]), (slots[1],slots[6]) \
+            , (slots[5], slots[1]) ]
 
-shifts = [ Shift(slots[0:2], "Mat") \
-         , Shift(slots[2:4], "Mat") \
-         , Shift(slots[4:6], "Not") \
-         , Shift(slots[6:8], "Not") ]
+#days = [ Day(slots[0:2] + slots[4:6], "Seg.") \
+#       , Day(slots[2:4] + slots[6:8], "Ter.") ]
+
+#shifts = [ Shift(slots[0:2], "Mat") \
+#         , Shift(slots[2:4], "Mat") \
+#         , Shift(slots[4:6], "Not") \
+#         , Shift(slots[6:8], "Not") ]
 
 lp_vars = {}
 
@@ -120,6 +123,9 @@ def solve(professors, courses, semesters, days, shifts, slots):
         prob += v == 0
 
 
+    for p in professors:
+        for
+        v = 
 
 
     #for p in professors:

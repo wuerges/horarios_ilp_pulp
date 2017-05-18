@@ -58,18 +58,18 @@ def solve(professors, courses, semesters, days, shifts, slots):
 
     # Maximum one class for slot
     for s in slots:
-        v = pulp.lpSum(lp_vars[(p, c, s, sem)] \
-                for p in professors \
-                for c in courses \
-                for sem in semesters)
-        prob += v <= 1 #s.size
-
-    for sem in semesters:
-        for s in sem.slots:
+        for sem in semesters:
             v = pulp.lpSum(lp_vars[(p, c, s, sem)] \
                     for p in professors \
                     for c in courses)
             prob += v <= 1 #s.size
+
+    #for sem in semesters:
+    #    for s in sem.slots:
+    #        v = pulp.lpSum(lp_vars[(p, c, s, sem)] \
+    #                for p in professors \
+    #                for c in courses)
+    #        prob += v <= 1 #s.size
 
     # Each professor must only give his classes
     for p in professors:
@@ -81,7 +81,7 @@ def solve(professors, courses, semesters, days, shifts, slots):
 
     # Each proessor must not give other professor's classes
     for p in professors:
-        v = pulp.lpSum(lp_vars[(p, c, s, sem)] * s.size \
+        v = pulp.lpSum(lp_vars[(p, c, s, sem)] \
                 for s in slots \
                 for c in courses if not c in p.courses \
                 for sem in semesters )
@@ -96,23 +96,31 @@ def solve(professors, courses, semesters, days, shifts, slots):
         prob += v == c.num_hours
 
     # Each semester must have all its courses filled
-    """
     for sem in semesters:
         v = pulp.lpSum(lp_vars[(p, c, s, sem)] * s.size \
-                for s in slots \
+                for s in sem.slots \
                 for p in ps \
                 for c in sem.courses)
         prob += v == sum(c.num_hours for c in sem.courses)
 
     # Each semester must only have its courses
     for sem in semesters:
-        v = pulp.lpSum(lp_vars[(p, c, s, sem)] * s.size \
+        v = pulp.lpSum(lp_vars[(p, c, s, sem)] \
                 for s in slots \
                 for p in ps \
                 for c in cs if not c in sem.courses)
         prob += v == 0
 
-    """
+    # Each semester must only have its slots
+    for sem in semesters:
+        v = pulp.lpSum(lp_vars[(p, c, s, sem)] \
+                for s in slots if not s in sem.slots \
+                for p in ps \
+                for c in cs)
+        prob += v == 0
+
+
+
 
     #for p in professors:
     #    prob += pulp.lpSum([s.size * prof_slot[(p, c, s)] for c in p.courses for s in slots]) == p.total_time()
@@ -123,12 +131,18 @@ def solve(professors, courses, semesters, days, shifts, slots):
     #    prob += pulp.lpSum([prof_slot[(p,st)] for sh in shifts for st in sh.slots]) <= 1.1
 
 
-    print(professors)
-    print(courses)
-    print(semesters)
-    print(days)
-    print(shifts)
-    print(slots)
+    #print(professors)
+    #print(courses)
+    #print(semesters)
+    #print(days)
+    #print(shifts)
+    #print(slots)
+    for sem in semesters:
+        print(sem)
+        for c in sem.courses:
+            print("  ", c)
+        for s in sem.slots:
+            print("  ", s)
     prob.writeLP("problem.lp")
     prob.solve()
     print("Status:", pulp.LpStatus[prob.status])

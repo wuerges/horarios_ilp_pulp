@@ -6,7 +6,7 @@ cs = [ Course("A", 5), Course("B", 5), Course("C"), Course("D") \
      , Course("E", 5), Course("F", 5), Course("G"), Course("H") ] 
 
 ps = [ Professor(cs[0:2], "P1"), Professor(cs[2:4], "P2") \
-      , Professor(cs[4:6], "P3"), Professor(cs[6:], "P2") ]
+      , Professor(cs[4:6], "P3"), Professor(cs[6:], "P4") ]
 
 slots = [ Slot("M1_seg", 3), Slot("M2_seg", 2), Slot("M1_ter", 3), Slot("M2_ter", 2) \
         , Slot("N1_seg", 2), Slot("N2_seg", 2), Slot("N1_ter", 2), Slot("N2_ter", 2) ]

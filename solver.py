@@ -85,6 +85,7 @@ def solve(professors, courses, semesters, days, shifts, slots):
                 for sem in semesters )
         prob += v == c.num_hours
 
+    # Each semester must have all its courses filled
     for sem in semesters:
         v = pulp.lpSum(lp_vars[(p, c, s, sem)] * s.size \
                 for s in slots \
@@ -92,6 +93,13 @@ def solve(professors, courses, semesters, days, shifts, slots):
                 for c in sem.courses)
         prob += v == sum(c.num_hours for c in sem.courses)
 
+    # Each semester must only have its courses
+    for sem in semesters:
+        v = pulp.lpSum(lp_vars[(p, c, s, sem)] * s.size \
+                for s in slots \
+                for p in ps \
+                for c in cs if not c in sem.courses)
+        prob += v == 0
 
 
     #for p in professors:

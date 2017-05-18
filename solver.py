@@ -81,6 +81,14 @@ def solve(professors, courses, semesters, slots):
                     for c in courses)
             prob += v <= 1 #s.size
 
+    for s in slots:
+        for p in professors:
+            v = pulp.lpSum(lp_vars[(p, c, s, sem)] \
+                    for sem in semesters \
+                    for c in courses)
+            prob += v <= 1 #s.size
+
+
     #for sem in semesters:
     #    for s in sem.slots:
     #        v = pulp.lpSum(lp_vars[(p, c, s, sem)] \
@@ -188,9 +196,11 @@ def solve(professors, courses, semesters, slots):
         for s in ms:
             x = get_slot(s, sem)
             if x: 
-                print(x[0].name, x[1].name, end='\t')
+                label = "%s %s" % (x[0].name, x[1].name)
             else:
-                print("<>", end='\t')
+                label = "()"
+            print(label.center(16),end='')
+
         print()
 
     for sem in semesters:

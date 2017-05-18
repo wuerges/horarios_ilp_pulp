@@ -70,6 +70,10 @@ class Semester:
     def add_course(self, c):
         self.courses.append(c)
 
+    def add_courses(self, cs):
+        for c in cs:
+            self.courses.append(c)
+
     def __repr__(self):
         return "Semester_%d:%s" % (self.id, self.name)
 

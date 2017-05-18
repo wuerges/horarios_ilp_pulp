@@ -5,8 +5,11 @@ import pulp
 cs = [ Course("A", 5), Course("B", 5), Course("C"), Course("D") \
      , Course("E", 5), Course("F", 5), Course("G"), Course("H") ] 
 
-ps = [ Professor(cs[0:2], "P1"), Professor(cs[2:4], "P2") \
-      , Professor(cs[4:6], "P3"), Professor(cs[6:], "P4") ]
+#ps = [ Professor(cs[0:2], "P1"), Professor(cs[2:4], "P2") \
+#      , Professor(cs[4:6], "P3"), Professor(cs[6:], "P4") ]
+
+ps = [ Professor(cs[0:4], "P1") \
+     , Professor(cs[4:], "P2") ]
 
 slots = [ Slot("M1_seg", 3), Slot("M2_seg", 2), Slot("M1_ter", 3), Slot("M2_ter", 2) \
         , Slot("N1_seg", 2), Slot("N2_seg", 2), Slot("N1_ter", 2), Slot("N2_ter", 2) ]
@@ -52,7 +55,7 @@ for c in cs:
                         pulp.LpVariable(str(k), lowBound=0, cat=pulp.LpInteger)
 
 
-def solve(professors, courses, semesters, days, shifts, slots):
+def solve(professors, courses, semesters, slots):
     prob = pulp.LpProblem("Semester Problem", pulp.LpMaximize)
 
     prob += pulp.lpSum(v for k,v in lp_vars.items())
@@ -80,7 +83,7 @@ def solve(professors, courses, semesters, days, shifts, slots):
                 for s in slots \
                 for c in p.courses \
                 for sem in semesters )
-        prob += v == sum(c.num_hours for c in p.courses)
+        prob += v <= sum(c.num_hours for c in p.courses)
 
     # Each proessor must not give other professor's classes
     for p in professors:
@@ -96,7 +99,7 @@ def solve(professors, courses, semesters, days, shifts, slots):
                 for s in slots \
                 for p in ps \
                 for sem in semesters )
-        prob += v == c.num_hours
+        prob += v <= c.num_hours
 
     # Each semester must have all its courses filled
     for sem in semesters:
@@ -104,7 +107,7 @@ def solve(professors, courses, semesters, days, shifts, slots):
                 for s in sem.slots \
                 for p in ps \
                 for c in sem.courses)
-        prob += v == sum(c.num_hours for c in sem.courses)
+        prob += v <= sum(c.num_hours for c in sem.courses)
 
     # Each semester must only have its courses
     for sem in semesters:
@@ -124,9 +127,14 @@ def solve(professors, courses, semesters, days, shifts, slots):
 
 
     for p in professors:
-        for
-        v = 
-
+        for (a, b) in proibidos:
+            va = pulp.lpSum(lp_vars[(p, c, a, sem)] \
+                    for c in p.courses \
+                    for sem in semesters )
+            vb = pulp.lpSum(lp_vars[(p, c, b, sem)] \
+                    for c in p.courses \
+                    for sem in semesters )
+            prob += va + vb <= 1
 
     #for p in professors:
     #    prob += pulp.lpSum([s.size * prof_slot[(p, c, s)] for c in p.courses for s in slots]) == p.total_time()
@@ -158,4 +166,4 @@ def solve(professors, courses, semesters, days, shifts, slots):
 
 
 
-solve(ps, cs, semesters, days, shifts, slots)
+solve(ps, cs, semesters, slots)

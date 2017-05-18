@@ -53,7 +53,7 @@ for c in cs:
             for sem in semesters:
                 k = (p, c, s, sem)
                 lp_vars[k] = \
-                        pulp.LpVariable(str(k), lowBound=0, cat=pulp.LpInteger)
+                        pulp.LpVariable(k, lowBound=0, cat=pulp.LpInteger)
 
 
 def solve(professors, courses, semesters, slots):

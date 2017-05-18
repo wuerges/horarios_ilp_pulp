@@ -4,8 +4,6 @@ def id_generator():
         yield id_seed
         id_seed += 1
 
-
-
 id_seed = id_generator()
 
 class Professor:
@@ -74,3 +72,5 @@ class Semester:
 
     def __repr__(self):
         return "Semester_%d:%s" % (self.id, self.name)
+
+dias = ["seg", "ter", "qua", "qui", "sex"]

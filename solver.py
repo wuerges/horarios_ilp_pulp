@@ -1,48 +1,48 @@
-from model import Professor, Course, Slot, Semester, Day, Shift, id_seed
-
+from s_2017_1 import *
+from model import id_seed
 import pulp
 
-cs = [ Course("A", 5), Course("B", 5), Course("C"), Course("D") \
-     , Course("E", 5), Course("F", 5), Course("G"), Course("H") ] 
+#cs = [ Course("A", 5), Course("B", 5), Course("C"), Course("D") \
+#     , Course("E", 5), Course("F", 5), Course("G"), Course("H") ] 
 
 #ps = [ Professor(cs[0:2], "P1"), Professor(cs[2:4], "P2") \
 #      , Professor(cs[4:6], "P3"), Professor(cs[6:], "P4") ]
 
-ps = [ Professor(cs[0:4], "P1") \
-     , Professor(cs[4:], "P2") ]
-
-slots = [ Slot("M1_seg", 3), Slot("M2_seg", 2), Slot("M1_ter", 3), Slot("M2_ter", 2) \
-        , Slot("T1_seg", 3), Slot("T2_seg", 2), Slot("T1_ter", 3), Slot("T2_ter", 2) \
-        , Slot("N1_seg", 2), Slot("N2_seg", 2), Slot("N1_ter", 2), Slot("N2_ter", 2) ]
-
-m1s = [slots[0], slots[2]]
-m2s = [slots[1], slots[3]]
-t1s = [slots[4], slots[6]]
-t2s = [slots[5], slots[7]]
-n1s = [slots[8], slots[10]]
-n2s = [slots[9], slots[11]]
-
-matutino1 =  Semester(slots[0:4], "Mat1")
-matutino1.add_course(cs[0])
-matutino1.add_course(cs[1])
-
-noturno2  =  Semester(slots[4:8], "Not2")
-noturno2.add_course(cs[2])
-noturno2.add_course(cs[3])
-
-matutino3 =  Semester(slots[0:4], "Mat3")
-matutino3.add_course(cs[4])
-matutino3.add_course(cs[5])
-
-noturno4  =  Semester(slots[4:8], "Not4")
-noturno4.add_course(cs[6])
-noturno4.add_course(cs[7])
-
-semesters = [ matutino1, noturno2, matutino3, noturno4 ]
+#ps = [ Professor(cs[0:4], "P1") \
+#     , Professor(cs[4:], "P2") ]
 
 
-proibidos = [ (slots[0], slots[5]), (slots[2],slots[7]) \
-            , (slots[5], slots[2]) ]
+#m1s = [Slot("M1_%s" % d, 3) for d in dias]
+#m2s = [Slot("M2_%s" % d, 2) for d in dias]
+#t1s = [Slot("T1_%s" % d, 3) for d in dias]
+#t2s = [Slot("T2_%s" % d, 2) for d in dias]
+#n1s = [Slot("N1_%s" % d, 2) for d in dias]
+#n2s = [Slot("N2_%s" % d, 2) for d in dias]
+
+
+#slots = m1s + m2s + t1s + t2s + n1s + n2s
+
+#matutino1 =  Semester(slots[0:4], "Mat1")
+#matutino1.add_course(cs[0])
+#matutino1.add_course(cs[1])
+#
+#noturno2  =  Semester(slots[4:8], "Not2")
+#noturno2.add_course(cs[2])
+#noturno2.add_course(cs[3])
+#
+#matutino3 =  Semester(slots[0:4], "Mat3")
+#matutino3.add_course(cs[4])
+#matutino3.add_course(cs[5])
+#
+#noturno4  =  Semester(slots[4:8], "Not4")
+#noturno4.add_course(cs[6])
+#noturno4.add_course(cs[7])
+#
+#semesters = [ matutino1, noturno2, matutino3, noturno4 ]
+#
+#
+#proibidos = [ (slots[0], slots[5]), (slots[2],slots[7]) \
+#            , (slots[5], slots[2]) ]
 
 #days = [ Day(slots[0:2] + slots[4:6], "Seg.") \
 #       , Day(slots[2:4] + slots[6:8], "Ter.") ]
@@ -138,7 +138,7 @@ def solve(professors, courses, semesters, slots):
 
 
     for p in professors:
-        print(p, proibidos)
+        #print(p, proibidos)
         for (a, b) in proibidos:
             va = pulp.lpSum(lp_vars[(p, c, a, sem)] \
                     for c in p.courses \
@@ -163,18 +163,18 @@ def solve(professors, courses, semesters, slots):
     #print(days)
     #print(shifts)
     #print(slots)
-    for sem in semesters:
-        print(sem)
-        for c in sem.courses:
-            print("  ", c)
-        for s in sem.slots:
-            print("  ", s)
-    prob.writeLP("problem.lp")
+    #for sem in semesters:
+    #    print(sem)
+    #    for c in sem.courses:
+    #        print("  ", c)
+    #    for s in sem.slots:
+    #        print("  ", s)
+    #prob.writeLP("problem.lp")
     prob.solve()
     print("Status:", pulp.LpStatus[prob.status])
-    for v in prob.variables(): 
-        if v.varValue and v.varValue > 0:
-            print(v.name, "=", v.varValue)
+    #for v in prob.variables(): 
+    #    if v.varValue and v.varValue > 0:
+    #        print(v.name, "=", v.varValue)
 
     def get_slot(s_, sem_):
         for (p,c, s, sem), v in lp_vars.items():
@@ -182,7 +182,7 @@ def solve(professors, courses, semesters, slots):
                 return lp_vars_rev[v.name]
 
 
-    print("\n\n\n")
+    #print("\n\n\n")
 
     def print_m_(ms, sem):
         for s in ms:

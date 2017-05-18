@@ -1,4 +1,4 @@
-from model import Professor, Course, Slot, Semester, Day, Shift
+from model import Professor, Course, Slot, Semester, Day, Shift, id_seed
 
 import pulp
 
@@ -14,6 +14,13 @@ ps = [ Professor(cs[0:4], "P1") \
 slots = [ Slot("M1_seg", 3), Slot("M2_seg", 2), Slot("M1_ter", 3), Slot("M2_ter", 2) \
         , Slot("T1_seg", 3), Slot("T2_seg", 2), Slot("T1_ter", 3), Slot("T2_ter", 2) \
         , Slot("N1_seg", 2), Slot("N2_seg", 2), Slot("N1_ter", 2), Slot("N2_ter", 2) ]
+
+m1s = [slots[0], slots[2]]
+m2s = [slots[1], slots[3]]
+t1s = [slots[4], slots[6]]
+t2s = [slots[5], slots[7]]
+n1s = [slots[8], slots[10]]
+n2s = [slots[9], slots[11]]
 
 matutino1 =  Semester(slots[0:4], "Mat1")
 matutino1.add_course(cs[0])
@@ -46,14 +53,17 @@ proibidos = [ (slots[0], slots[5]), (slots[2],slots[7]) \
 #         , Shift(slots[6:8], "Not") ]
 
 lp_vars = {}
+lp_vars_rev = {}
 
 for c in cs:
     for p in ps:
         for s in slots:
             for sem in semesters:
                 k = (p, c, s, sem)
-                lp_vars[k] = \
-                        pulp.LpVariable(k, lowBound=0, cat=pulp.LpInteger)
+                id_n = next(id_seed)
+                v = pulp.LpVariable(id_n, lowBound=0, cat=pulp.LpInteger)
+                lp_vars[k] = v
+                lp_vars_rev[v.name] = k
 
 
 def solve(professors, courses, semesters, slots):
@@ -166,17 +176,37 @@ def solve(professors, courses, semesters, slots):
         if v.varValue and v.varValue > 0:
             print(v.name, "=", v.varValue)
 
-    def print_slot(s_, sem_):
+    def get_slot(s_, sem_):
         for (p,c, s, sem), v in lp_vars.items():
             if sem_ is sem and s is s_ and v.varValue > 0:
-                print(v.name, "=", v.varValue)
+                return lp_vars_rev[v.name]
 
 
-    print("print slot")
+    print("\n\n\n")
+
+    def print_m_(ms, sem):
+        for s in ms:
+            x = get_slot(s, sem)
+            if x: 
+                print(x[0].name, x[1].name, end='\t')
+            else:
+                print("<>", end='\t')
+        print()
+
     for sem in semesters:
-        print(sem)
-        for s in slots:
-            print_slot(s, sem)
+        print("\n\n", sem)
+        print("7:30", end='\t')
+        print_m_(m1s, sem)
+        print("9:00", end='\t')
+        print_m_(m2s, sem)
+        print("13:30", end='\t')
+        print_m_(t1s, sem)
+        print("16:10", end='\t')
+        print_m_(t2s, sem)
+        print("19:00", end='\t')
+        print_m_(n1s, sem)
+        print("21:00", end='\t')
+        print_m_(n2s, sem)
     #slots = [ Slot("M1_seg", 3), Slot("M2_seg", 2), Slot("M1_ter", 3), Slot("M2_ter", 2) \
     #        , Slot("T1_seg", 3), Slot("T2_seg", 2), Slot("T1_ter", 3), Slot("T2_ter", 2) \
     #        , Slot("N1_seg", 2), Slot("N2_seg", 2), Slot("N1_ter", 2), Slot("N2_ter", 2) ]

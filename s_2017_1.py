@@ -76,10 +76,12 @@ ps = [ Professor([alg, alg_extra, prog1, prog2], "Priscila")
 
 m1s = [Slot("M1_seg", 2.9)] + [Slot("M1_%s" % d, 3) for d in dias[1:]]
 m2s = [Slot("M2_seg", 1.9)] + [Slot("M2_%s" % d, 2) for d in dias[1:]]
-t1s = [Slot("T1_%s" % d, 3) for d in dias]
-t2s = [Slot("T2_%s" % d, 2) for d in dias]
+t1s = [Slot("T1_seg", 2.9)] + [Slot("T1_%s" % d, 3) for d in dias[1:]]
+t2s = [Slot("T2_seg", 1.9)] + [Slot("T2_%s" % d, 2) for d in dias[1:]]
+#t1s = [Slot("T1_%s" % d, 3) for d in dias]
+#t2s = [Slot("T2_%s" % d, 2) for d in dias]
 n1s = [Slot("N1_%s" % d, 2) for d in dias[:-1]] + [Slot("N1_sexta", 1.9)]
-n2s = [Slot("N2_%s" % d, 2) for d in dias[:-1]] + [Slot("N2_sexta", 1.8)]
+n2s = [Slot("N2_%s" % d, 1.95) for d in dias[:-1]] + [Slot("N2_sexta", 1.8)]
 
 slots = m1s + m2s + t1s + t2s + n1s + n2s
 
@@ -97,7 +99,8 @@ mat6 = Semester(m1s + m2s, "6a Fase - Matutino")
 mat6.add_courses([es2, redes, cg, pgp, comp])
 
 mat8 = Semester(m1s + m2s, "8a Fase - Matutino")
-mat8.add_courses([opt3, opt4, seg, tcc2])
+#mat8.add_courses([opt3, opt4, seg, tcc2])
+mat8.add_courses([opt3, opt4, seg])
 
 not1 = Semester(n1s + n2s, "1a Fase - Noturno")
 not1.add_courses([iinf, alg, circ])
@@ -112,7 +115,8 @@ not7 = Semester(n1s + n2s, "7a Fase - Noturno")
 not7.add_courses([ia, comp2, cg2, so])
 
 not9 = Semester(n1s + n2s, "9a Fase - Noturno")
-not9.add_courses([cdist, seg2, opt2, tcc1])
+#not9.add_courses([cdist, seg2, opt2, tcc1])
+not9.add_courses([cdist, seg2, opt2])
 
 
 semesters = [ extras
@@ -130,6 +134,15 @@ for x in zip(m2s, n1s):
     proibidos.append(x)
 for x in zip(m2s, n2s):
     proibidos.append(x)
+
+evitar = []
+for x in zip(m1s, m2s):
+    evitar.append(x)
+for x in zip(t1s, t2s):
+    proibidos.append(x)
+for x in zip(n1s, n2s):
+    proibidos.append(x)
+
 
 for x in zip(m1s[1:], n2s):
     proibidos.append(x)

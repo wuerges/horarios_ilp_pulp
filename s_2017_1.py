@@ -74,7 +74,7 @@ ps = [ Professor([alg, alg_extra, prog1, prog2], "Priscila")
      , Professor([alg, bd2], "Guilherme")
      , Professor([opt2, tcc1], "Pavan") ]
 
-m1s = [Slot("M1_seg", 2.9)] + [Slot("M1_%s" % d, 3) for d in dias[1:]]
+m1s = [Slot("M1_seg", 2.8), Slot("M2_seg", 2.85)] + [Slot("M1_%s" % d, 3) for d in dias[2:]]
 m2s = [Slot("M2_seg", 1.9)] + [Slot("M2_%s" % d, 2) for d in dias[1:]]
 t1s = [Slot("T1_seg", 2.9)] + [Slot("T1_%s" % d, 3) for d in dias[1:]]
 t2s = [Slot("T2_seg", 1.9)] + [Slot("T2_%s" % d, 2) for d in dias[1:]]

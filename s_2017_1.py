@@ -65,8 +65,8 @@ ps = [ Professor([alg, alg_extra, prog1, prog2], "Priscila")
      , Professor([circ, dig], "Emilio")
      , Professor([bd1, teo, teo2, ed2], "Ricardo")
      , Professor([ipc, opt4, es2], "Grazi")
-     , Professor([tcc1, redes, so], "Marco")
      , Professor([ia, cg, cg2], "Jose")
+     , Professor([tcc1, redes, so], "Marco")
      , Professor([pgp, es1], "Raquel")
      , Professor([comp, comp2, cdist], "Braulio")
      , Professor([circ, opt3], "Padilha")
@@ -74,13 +74,12 @@ ps = [ Professor([alg, alg_extra, prog1, prog2], "Priscila")
      , Professor([alg, bd2], "Guilherme")
      , Professor([opt2, tcc1], "Pavan") ]
 
-m1s = [Slot("M1_%s" % d, 3) for d in dias]
-m2s = [Slot("M2_%s" % d, 2) for d in dias]
+m1s = [Slot("M1_seg", 2.9)] + [Slot("M1_%s" % d, 3) for d in dias[1:]]
+m2s = [Slot("M2_seg", 1.9)] + [Slot("M2_%s" % d, 2) for d in dias[1:]]
 t1s = [Slot("T1_%s" % d, 3) for d in dias]
 t2s = [Slot("T2_%s" % d, 2) for d in dias]
-n1s = [Slot("N1_%s" % d, 2) for d in dias]
-n2s = [Slot("N2_%s" % d, 2) for d in dias]
-
+n1s = [Slot("N1_%s" % d, 2) for d in dias[:-1]] + [Slot("N1_sexta", 1.9)]
+n2s = [Slot("N2_%s" % d, 2) for d in dias[:-1]] + [Slot("N2_sexta", 1.8)]
 
 slots = m1s + m2s + t1s + t2s + n1s + n2s
 
@@ -123,7 +122,13 @@ semesters = [ extras
 
 proibidos = []
 
+for x in zip(m1s, n1s):
+    proibidos.append(x)
 for x in zip(m1s, n2s):
+    proibidos.append(x)
+for x in zip(m2s, n1s):
+    proibidos.append(x)
+for x in zip(m2s, n2s):
     proibidos.append(x)
 
 for x in zip(m1s[1:], n2s):

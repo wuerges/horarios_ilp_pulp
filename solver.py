@@ -69,7 +69,7 @@ for c in cs:
 def solve(professors, courses, semesters, slots):
     prob = pulp.LpProblem("Semester Problem", pulp.LpMaximize)
 
-    prob += pulp.lpSum(v for k,v in lp_vars.items())
+    prob += pulp.lpSum(lp_vars_rev[v.name][2].size * v for k,v in lp_vars.items())
 
     #print(lp_vars.keys())
 
@@ -104,7 +104,7 @@ def solve(professors, courses, semesters, slots):
     #            for sem in semesters )
     #    prob += v <= sum(c.num_hours for c in p.courses)
 
-    # Each proessor must not give other professor's classes
+    # Each professor must not give other professor's classes
     for p in professors:
         v = pulp.lpSum(lp_vars[(p, c, s, sem)] \
                 for s in slots \
@@ -128,7 +128,7 @@ def solve(professors, courses, semesters, slots):
     #            for c in sem.courses)
     #    prob += v <= sum(c.num_hours for c in sem.courses)
 
-    # Each semester must only have its courses
+    # Each semester must only have its courses # tested
     for sem in semesters:
         v = pulp.lpSum(lp_vars[(p, c, s, sem)] \
                 for s in slots \
@@ -136,7 +136,7 @@ def solve(professors, courses, semesters, slots):
                 for c in cs if not c in sem.courses)
         prob += v == 0
 
-    # Each semester must only have its slots
+    # Each semester must only have its slots # tested
     for sem in semesters:
         v = pulp.lpSum(lp_vars[(p, c, s, sem)] \
                 for s in slots if not s in sem.slots \

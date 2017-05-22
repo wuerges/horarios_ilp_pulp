@@ -74,7 +74,7 @@ ps = [ Professor([alg, alg_extra, prog1, prog2], "Priscila")
      , Professor([alg, bd2], "Guilherme")
      , Professor([opt2, tcc1], "Pavan") ]
 
-m1s = [Slot("M1_seg", 2.8), Slot("M2_seg", 2.85)] + [Slot("M1_%s" % d, 3) for d in dias[2:]]
+m1s = [Slot("M1_seg", 2.8)] + [Slot("M1_%s" % d, 3) for d in dias[1:]]
 m2s = [Slot("M2_seg", 1.9)] + [Slot("M2_%s" % d, 2) for d in dias[1:]]
 t1s = [Slot("T1_seg", 2.9)] + [Slot("T1_%s" % d, 3) for d in dias[1:]]
 t2s = [Slot("T2_seg", 1.9)] + [Slot("T2_%s" % d, 2) for d in dias[1:]]
@@ -126,6 +126,13 @@ semesters = [ extras
 
 proibidos = []
 
+proibidos.extend(zip(m1s, n2s))
+proibidos.extend(zip(m1s[1:], n2s))
+proibidos.extend(zip(m1s, n1s))
+proibidos.extend(zip(m2s, n1s)) # Este é o principal problema
+proibidos.extend(zip(m2s, n2s))
+
+"""
 for x in zip(m1s, n1s):
     proibidos.append(x)
 for x in zip(m1s, n2s):
@@ -134,17 +141,15 @@ for x in zip(m2s, n1s):
     proibidos.append(x)
 for x in zip(m2s, n2s):
     proibidos.append(x)
-
-evitar = []
-for x in zip(m1s, m2s):
-    evitar.append(x)
-for x in zip(t1s, t2s):
-    proibidos.append(x)
-for x in zip(n1s, n2s):
-    proibidos.append(x)
-
-
 for x in zip(m1s[1:], n2s):
     proibidos.append(x)
+
+"""
+evitar = []
+evitar.extend(zip(m1s, m2s))
+evitar.extend(zip(t1s, t2s))
+evitar.extend(zip(n1s, n2s))
+
+proibidos.extend(evitar)
 
 

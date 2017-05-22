@@ -69,21 +69,8 @@ for c in cs:
 def solve(professors, courses, semesters, slots):
     prob = pulp.LpProblem("Semester Problem", pulp.LpMaximize)
 
-    termos = [lp_vars_rev[v.name][2].size * v for k,v in lp_vars.items()]
-    for e in evitar:
-        for p in professors:
-            #print(p, proibidos)
-            for (a, b) in proibidos:
-                va = pulp.lpSum(lp_vars[(p, c, a, sem)] \
-                        for c in p.courses \
-                        for sem in semesters )
-                vb = pulp.lpSum(lp_vars[(p, c, b, sem)] \
-                        for c in p.courses \
-                        for sem in semesters )
-                termos.append( -0.01 * (va + vb) )
-
-
-    prob += pulp.lpSum(termos) 
+    opt_fun = pulp.lpSum(lp_vars_rev[v.name][2].size * v for k,v in lp_vars.items())
+    prob += opt_fun
 
     #print(lp_vars.keys())
 
@@ -231,6 +218,8 @@ def solve(professors, courses, semesters, slots):
         print_m_(n1s, sem)
         print("21:00", end='\t')
         print_m_(n2s, sem)
+
+    print("Total Value:", pulp.value(prob.objective))
     #slots = [ Slot("M1_seg", 3), Slot("M2_seg", 2), Slot("M1_ter", 3), Slot("M2_ter", 2) \
     #        , Slot("T1_seg", 3), Slot("T2_seg", 2), Slot("T1_ter", 3), Slot("T2_ter", 2) \
     #        , Slot("N1_seg", 2), Slot("N2_seg", 2), Slot("N1_ter", 2), Slot("N2_ter", 2) ]

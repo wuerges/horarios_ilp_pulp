@@ -145,7 +145,6 @@ def solve(professors, courses, semesters, slots):
                 for c in cs)
         prob += v == 0
 
-
     for p in professors:
         #print(p, proibidos)
         for (a, b) in proibidos:
@@ -156,6 +155,18 @@ def solve(professors, courses, semesters, slots):
                     for c in p.courses \
                     for sem in semesters )
             prob += va + vb <= 1
+
+
+    for p in professors:
+        if not p.faixa:
+            for (a, b) in evitar:
+                va = pulp.lpSum(lp_vars[(p, c, a, sem)] \
+                        for c in p.courses \
+                        for sem in semesters )
+                vb = pulp.lpSum(lp_vars[(p, c, b, sem)] \
+                        for c in p.courses \
+                        for sem in semesters )
+                prob += va + vb <= 1
 
     #for p in professors:
     #    prob += pulp.lpSum([s.size * prof_slot[(p, c, s)] for c in p.courses for s in slots]) == p.total_time()

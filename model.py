@@ -7,8 +7,9 @@ def id_generator():
 id_seed = id_generator()
 
 class Professor:
-    def __init__(self, courses, name):
+    def __init__(self, courses, name, faixa=False):
         self.name = name
+        self.faixa = faixa
         self.courses = courses
         self.id = next(id_seed)
 

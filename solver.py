@@ -1,4 +1,4 @@
-from s_2017_1 import *
+from s_2017_2 import *
 from model import id_seed
 import pulp
 

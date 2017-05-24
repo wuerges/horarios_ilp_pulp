@@ -95,6 +95,34 @@ def solve(professors, courses, semesters, slots):
                     for c in courses)
             prob += v <= 1 #s.size
 
+    for s in slots:
+        a = pulp.lpSum(lp_vars[(priscila, c, s, sem)] \
+                for sem in semesters \
+                for c in courses)
+        b = pulp.lpSum(lp_vars[(guilherme, c, s, sem)] \
+                for sem in semesters \
+                for c in courses)
+        c = pulp.lpSum(lp_vars[(priscila_guilherme, c, s, sem)] \
+                for sem in semesters \
+                for c in courses)
+        prob += a + c <= 1 #s.size
+        prob += b + c <= 1 #s.size
+
+    for s in slots:
+        a = pulp.lpSum(lp_vars[(padilha, c, s, sem)] \
+                for sem in semesters \
+                for c in courses)
+        b = pulp.lpSum(lp_vars[(emilio, c, s, sem)] \
+                for sem in semesters \
+                for c in courses)
+        c = pulp.lpSum(lp_vars[(emilio_padilha, c, s, sem)] \
+                for sem in semesters \
+                for c in courses)
+        prob += a + c <= 1 #s.size
+        prob += b + c <= 1 #s.size
+
+
+
 
     #for sem in semesters:
     #    for s in sem.slots:
@@ -174,6 +202,16 @@ def solve(professors, courses, semesters, slots):
                         for sem in semesters )
                 prob += va + vb <= 1
 
+    #for s in slots:
+    #    for sem in semesters:
+    #        va = lp_vars[(guilherme, alg, s, sem)]
+    #        vb = lp_vars[(priscila, alg, s, sem)]
+    #        prob += va == vb
+#
+#            vc = lp_vars[(emilio, circ, s, sem)]
+#            vd = lp_vars[(padilha, circ, s, sem)]
+#            prob += vc == vd
+
     #for p in professors:
     #    prob += pulp.lpSum([s.size * prof_slot[(p, c, s)] for c in p.courses for s in slots]) == p.total_time()
 
@@ -204,8 +242,9 @@ def solve(professors, courses, semesters, slots):
 
     def get_slot(s_, sem_):
         for (p,c, s, sem), v in lp_vars.items():
-            if sem_ is sem and s is s_ and v.varValue > 0:
+            if sem_ is sem and s is s_ and pulp.value(v) > 0: #.varValue > 0:
                 return lp_vars_rev[v.name]
+
 
 
     #print("\n\n\n")

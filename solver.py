@@ -211,29 +211,31 @@ def solve(professors, courses, semesters, slots):
     #print("\n\n\n")
 
     def print_m_(ms, sem):
+
+        linha = []
         for s in ms:
             x = get_slot(s, sem)
             if x: 
                 label = "%s %s" % (x[0].name, x[1].name)
             else:
                 label = "()"
-            print(label.center(16),end='')
+            linha.append(label.center(16))
 
-        print()
+        print(",".join(linha))
 
     for sem in semesters:
         print("\n\n", sem)
-        print("7:30", end='\t')
+        print("7:30, ", end=' ')
         print_m_(m1s, sem)
-        print("10:10", end='\t')
+        print("10:10,", end=' ')
         print_m_(m2s, sem)
-        print("13:30", end='\t')
+        print("13:30,", end=' ')
         print_m_(t1s, sem)
-        print("16:10", end='\t')
+        print("16:10,", end=' ')
         print_m_(t2s, sem)
-        print("19:10", end='\t')
+        print("19:10,", end=' ')
         print_m_(n1s, sem)
-        print("21:00", end='\t')
+        print("21:00,", end=' ')
         print_m_(n2s, sem)
 
     print("Total Value:", pulp.value(prob.objective))

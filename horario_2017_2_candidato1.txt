@@ -1,0 +1,97 @@
+Status: Optimal
+
+
+ Semester_81:Extra
+7:30	       ()              ()              ()              ()              ()       
+10:10	       ()              ()              ()              ()              ()       
+13:30	       ()        Priscila ALG+    Jacson ED1+     Jacson ED2+    Doglas GRAFOS+ 
+16:10	       ()         Jacson ED2+    Doglas GRAFOS+  Priscila ALG+    Jacson ED1+   
+19:10	       ()              ()              ()              ()              ()       
+21:00	       ()              ()              ()              ()              ()       
+
+
+ Semester_82:2a Fase - Vespertino
+7:30	       ()              ()              ()              ()              ()       
+10:10	       ()              ()              ()              ()              ()       
+13:30	       ()          Emilio DIG          ()          Doglas ED1          ()       
+16:10	       ()          Doglas ED1          ()          Emilio DIG          ()       
+19:10	       ()              ()              ()              ()              ()       
+21:00	       ()              ()              ()              ()              ()       
+
+
+ Semester_83:4a Fase - Matutino
+7:30	       ()        Doglas GRAFOS   Priscila PROG2  Ricardo TEORIA   Ricardo BD1   
+10:10	       ()        Priscila PROG2   Ricardo BD1    Doglas GRAFOS   Ricardo TEORIA 
+13:30	       ()              ()              ()              ()              ()       
+16:10	       ()              ()              ()              ()              ()       
+19:10	       ()              ()              ()              ()              ()       
+21:00	       ()              ()              ()              ()              ()       
+
+
+ Semester_84:6a Fase - Matutino
+7:30	       ()         Marco REDES          ()          Raquel PGP       Jose CG     
+10:10	       ()          Raquel PGP          ()         Marco REDES     Braulio COMP  
+13:30	       ()              ()              ()         Braulio COMP     Grazi ES2    
+16:10	       ()              ()              ()          Grazi ES2        Jose CG     
+19:10	       ()              ()              ()              ()              ()       
+21:00	       ()              ()              ()              ()              ()       
+
+
+ Semester_85:8a Fase - Matutino
+7:30	       ()              ()          Grazi OPT4     Padilha OPT3     Jacson SEG   
+10:10	       ()              ()         Padilha OPT3     Jacson SEG      Grazi OPT4   
+13:30	       ()              ()              ()              ()              ()       
+16:10	       ()              ()              ()              ()              ()       
+19:10	       ()              ()              ()              ()              ()       
+21:00	       ()              ()              ()              ()              ()       
+
+
+ Semester_86:1a Fase - Noturno
+7:30	       ()              ()              ()              ()              ()       
+10:10	       ()              ()              ()              ()              ()       
+13:30	       ()              ()              ()              ()              ()       
+16:10	       ()              ()              ()              ()              ()       
+19:10	       ()              ()        Guilherme ALG         ()        Guilherme ALG  
+21:00	       ()              ()         Emilio CIRC          ()         Emilio CIRC   
+
+
+ Semester_87:3a Fase - Noturno
+7:30	       ()              ()              ()              ()              ()       
+10:10	       ()              ()              ()              ()              ()       
+13:30	       ()              ()              ()              ()              ()       
+16:10	       ()              ()              ()              ()              ()       
+19:10	       ()         Ricardo ED2          ()        Priscila PROG1  Priscila PROG1 
+21:00	       ()         Ricardo ED2          ()              ()              ()       
+
+
+ Semester_88:5a Fase - Noturno
+7:30	       ()              ()              ()              ()              ()       
+10:10	       ()              ()              ()              ()              ()       
+13:30	       ()              ()              ()              ()              ()       
+16:10	       ()              ()              ()              ()              ()       
+19:10	 Ricardo TEORIA    Grazi IPC       Raquel ES1    Guilherme BD2   Doglas GRAFOS  
+21:00	 Ricardo TEORIA  Guilherme BD2   Doglas GRAFOS     Grazi IPC       Raquel ES1   
+
+
+ Semester_89:7a Fase - Noturno
+7:30	       ()              ()              ()              ()              ()       
+10:10	       ()              ()              ()              ()              ()       
+13:30	       ()              ()              ()              ()              ()       
+16:10	       ()              ()              ()              ()              ()       
+19:10	    Marco SO        Jose IA         Jose CG         Jose IA            ()       
+21:00	    Jose CG       Braulio COMP      Marco SO      Braulio COMP         ()       
+
+
+ Semester_90:9a Fase - Noturno
+7:30	       ()              ()              ()              ()              ()       
+10:10	       ()              ()              ()              ()              ()       
+13:30	       ()              ()              ()              ()              ()       
+16:10	       ()              ()              ()              ()              ()       
+19:10	  Braulio C.D.     Jacson SEG     Braulio C.D.     Pavan OPT2          ()       
+21:00	   Jacson SEG          ()          Pavan OPT2          ()              ()       
+Total Value: 152.7
+
+CCR c/ carga horário insuficiente:
+CCR: I.INF HS: 0.0
+CCR: TCC1 HS: 0.0
+CCR: TCC2 HS: 0.0

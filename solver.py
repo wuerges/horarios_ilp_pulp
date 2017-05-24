@@ -69,6 +69,12 @@ for c in cs:
 def solve(professors, courses, semesters, slots):
     prob = pulp.LpProblem("Semester Problem", pulp.LpMaximize)
 
+    opt_terms = []
+    for k,v in lp_vars.items():
+        if k[2] in n1s + n2s:
+            opt_terms.append(100 * lp_vars_rev[v.name][2].size * v)
+        else:
+            opt_terms.append(lp_vars_rev[v.name][2].size * v)
     opt_fun = pulp.lpSum(lp_vars_rev[v.name][2].size * v for k,v in lp_vars.items())
     prob += opt_fun
 
@@ -231,6 +237,16 @@ def solve(professors, courses, semesters, slots):
         print_m_(n2s, sem)
 
     print("Total Value:", pulp.value(prob.objective))
+
+    print("\nCCR c/ carga horário insuficiente:")
+    for c in cs:
+        v = pulp.lpSum(lp_vars[(p, c, s, sem)] \
+                for s in slots \
+                for p in ps \
+                for sem in semesters)
+        if pulp.value(v) < 2:
+            print("CCR:", c.name, "HS:", pulp.value(v))
+
     #slots = [ Slot("M1_seg", 3), Slot("M2_seg", 2), Slot("M1_ter", 3), Slot("M2_ter", 2) \
     #        , Slot("T1_seg", 3), Slot("T2_seg", 2), Slot("T1_ter", 3), Slot("T2_ter", 2) \
     #        , Slot("N1_seg", 2), Slot("N2_seg", 2), Slot("N1_ter", 2), Slot("N2_ter", 2) ]

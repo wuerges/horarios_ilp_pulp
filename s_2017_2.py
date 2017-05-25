@@ -59,7 +59,7 @@ cs = [ alg_extra    , iinf
      , seg          , tcc1    
      , tcc2 ]
 
-priscila = Professor([alg_extra, prog1, prog2], "Priscila", True)
+priscila = Professor([alg_extra, prog1, prog2], "Priscila", False)
 guilherme = Professor([bd2], "Guilherme", True)
 
 priscila_guilherme = Professor([alg], "Pris/Guil.", True)
@@ -68,19 +68,21 @@ emilio_padilha = Professor([circ], "Emilio/Padilha.", True)
 emilio =  Professor([dig], "Emilio")
 padilha =  Professor([opt3], "Padilha")
 
+raquel = Professor([pgp, es1], "Raquel", True)
+
 ps = [ priscila
      , guilherme
      , priscila_guilherme
      , emilio
      , padilha
      , emilio_padilha
+     , raquel
      , Professor([ed1, grafos, grafos_extra, grafos2], "Doglas", False)
      , Professor([ed1_extra, ed2_extra, seg, seg2], "Jacson", True)
      , Professor([bd1, teo, teo2, ed2], "Ricardo", True)
      , Professor([ipc, opt4, es2], "Grazi")
      , Professor([ia, cg, cg2], "Jose")
      , Professor([tcc1, redes, so], "Marco")
-     , Professor([pgp, es1], "Raquel", True)
      , Professor([comp, comp2, cdist], "Braulio")
      , Professor([iinf], "Andressa")
      , Professor([opt2, tcc1], "Pavan", True) ]

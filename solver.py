@@ -88,6 +88,12 @@ def solve(professors, courses, semesters, slots):
                     for c in courses)
             prob += v <= 1 #s.size
 
+    #for sem in semesters:
+    #    for s in sem.slots:
+    #        v = pulp.lpSum(lp_vars[(p, c, s, sem)] \
+    #                for p in professors \
+    #                for c in courses)
+    #        prob += v <= 1 #s.size
     for s in slots:
         for p in professors:
             v = pulp.lpSum(lp_vars[(p, c, s, sem)] \
@@ -95,6 +101,7 @@ def solve(professors, courses, semesters, slots):
                     for c in courses)
             prob += v <= 1 #s.size
 
+    # previne que haja choque entre os professores das turmas conjuntas
     for s in slots:
         a = pulp.lpSum(lp_vars[(priscila, c, s, sem)] \
                 for sem in semesters \
@@ -108,6 +115,7 @@ def solve(professors, courses, semesters, slots):
         prob += a + c <= 1 #s.size
         prob += b + c <= 1 #s.size
 
+    # previne que haja choque entre os professores das turmas conjuntas
     for s in slots:
         a = pulp.lpSum(lp_vars[(padilha, c, s, sem)] \
                 for sem in semesters \
@@ -121,23 +129,31 @@ def solve(professors, courses, semesters, slots):
         prob += a + c <= 1 #s.size
         prob += b + c <= 1 #s.size
 
+    for s in sex_noite:
+        for sem in semesters:
+            v = pulp.lpSum(lp_vars[(priscila_guilherme, c, s, sem)] \
+                    for c in courses)
+            prob += v == 0 #s.size
 
+    for s in sex_noite:
+        for sem in semesters:
+            v = pulp.lpSum(lp_vars[(guilherme, c, s, sem)] \
+                    for c in courses)
+            prob += v == 0 #s.size
 
-
-    #for sem in semesters:
-    #    for s in sem.slots:
-    #        v = pulp.lpSum(lp_vars[(p, c, s, sem)] \
-    #                for p in professors \
-    #                for c in courses)
-    #        prob += v <= 1 #s.size
+    for s in sex_noite:
+        for sem in semesters:
+            v = pulp.lpSum(lp_vars[(raquel, c, s, sem)] \
+                    for c in courses)
+            prob += v == 0 #s.size
 
     # Each professor must only give his classes
-    #for p in professors:
-    #    v = pulp.lpSum(lp_vars[(p, c, s, sem)] * s.size \
-    #            for s in slots \
-    #            for c in p.courses \
-    #            for sem in semesters )
-    #    prob += v <= sum(c.num_hours for c in p.courses)
+    for p in professors:
+        v = pulp.lpSum(lp_vars[(p, c, s, sem)] * s.size \
+                for s in slots \
+                for c in p.courses \
+                for sem in semesters )
+        prob += v <= sum(c.num_hours for c in p.courses)
 
     # Each professor must not give other professor's classes
     for p in professors:
@@ -179,6 +195,7 @@ def solve(professors, courses, semesters, slots):
                 for c in cs)
         prob += v == 0
 
+    # aplica as restrições legais
     for p in professors:
         #print(p, proibidos)
         for (a, b) in proibidos:
@@ -191,6 +208,55 @@ def solve(professors, courses, semesters, slots):
             prob += va + vb <= 1
 
 
+    # aplica restrições legais a turmas cojuntas
+    for (a, b) in proibidos:
+        va1 = pulp.lpSum(lp_vars[(priscila, c, b, sem)] \
+                for c in courses \
+                for sem in semesters )
+        va2 = pulp.lpSum(lp_vars[(guilherme, c, b, sem)] \
+                for c in courses \
+                for sem in semesters )
+        vb = pulp.lpSum(lp_vars[(priscila_guilherme, c, a, sem)] \
+                for c in courses \
+                for sem in semesters )
+        prob += va1 + vb <= 1
+        prob += va2 + vb <= 1
+        va1 = pulp.lpSum(lp_vars[(emilio, c, b, sem)] \
+                for c in courses \
+                for sem in semesters )
+        va2 = pulp.lpSum(lp_vars[(padilha, c, b, sem)] \
+                for c in courses \
+                for sem in semesters )
+        vb = pulp.lpSum(lp_vars[(emilio_padilha, c, a, sem)] \
+                for c in courses \
+                for sem in semesters )
+        prob += va1 + vb <= 1
+        prob += va2 + vb <= 1
+
+        va1 = pulp.lpSum(lp_vars[(priscila, c, a, sem)] \
+                for c in courses \
+                for sem in semesters )
+        va2 = pulp.lpSum(lp_vars[(guilherme, c, a, sem)] \
+                for c in courses \
+                for sem in semesters )
+        vb = pulp.lpSum(lp_vars[(priscila_guilherme, c, b, sem)] \
+                for c in courses \
+                for sem in semesters )
+        prob += va1 + vb <= 1
+        prob += va2 + vb <= 1
+        va1 = pulp.lpSum(lp_vars[(emilio, c, a, sem)] \
+                for c in courses \
+                for sem in semesters )
+        va2 = pulp.lpSum(lp_vars[(padilha, c, a, sem)] \
+                for c in courses \
+                for sem in semesters )
+        vb = pulp.lpSum(lp_vars[(emilio_padilha, c, b, sem)] \
+                for c in courses \
+                for sem in semesters )
+        prob += va1 + vb <= 1
+        prob += va2 + vb <= 1
+
+    # previne aulas faixa
     for p in professors:
         if not p.faixa:
             for (a, b) in evitar:
@@ -202,38 +268,7 @@ def solve(professors, courses, semesters, slots):
                         for sem in semesters )
                 prob += va + vb <= 1
 
-    #for s in slots:
-    #    for sem in semesters:
-    #        va = lp_vars[(guilherme, alg, s, sem)]
-    #        vb = lp_vars[(priscila, alg, s, sem)]
-    #        prob += va == vb
-#
-#            vc = lp_vars[(emilio, circ, s, sem)]
-#            vd = lp_vars[(padilha, circ, s, sem)]
-#            prob += vc == vd
 
-    #for p in professors:
-    #    prob += pulp.lpSum([s.size * prof_slot[(p, c, s)] for c in p.courses for s in slots]) == p.total_time()
-
-
-    # maximum one professor per slot of time
-    #for p in professors:
-    #    prob += pulp.lpSum([prof_slot[(p,st)] for sh in shifts for st in sh.slots]) <= 1.1
-
-
-    #print(professors)
-    #print(courses)
-    #print(semesters)
-    #print(days)
-    #print(shifts)
-    #print(slots)
-    #for sem in semesters:
-    #    print(sem)
-    #    for c in sem.courses:
-    #        print("  ", c)
-    #    for s in sem.slots:
-    #        print("  ", s)
-    #prob.writeLP("problem.lp")
     prob.solve()
     print("Status:", pulp.LpStatus[prob.status])
     #for v in prob.variables(): 
